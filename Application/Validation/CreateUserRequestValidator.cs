@@ -11,8 +11,6 @@ public class CreateUserRequestValidator : AbstractValidator<CreateUserRequest>
         RuleFor(x => x.LastName).NotEmpty();
         RuleFor(x => x.Email).EmailAddress();
         RuleFor(x => x.PhoneNumber).NotEmpty();
-        RuleFor(x => x.Country).NotEmpty();
-        RuleFor(x => x.Region).NotEmpty();
-        RuleFor(x => x.City).NotEmpty();
+        RuleFor(x => x.CityId).NotEmpty();
     }
 }

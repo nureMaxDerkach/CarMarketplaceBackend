@@ -36,3 +36,4 @@ C:\git\University\CarMarketplace-API\Application\obj\Debug\net8.0\refint\Applica
 C:\git\University\CarMarketplace-API\Application\obj\Debug\net8.0\Application.pdb
 C:\git\University\CarMarketplace-API\Application\obj\Debug\net8.0\Application.genruntimeconfig.cache
 C:\git\University\CarMarketplace-API\Application\obj\Debug\net8.0\ref\Application.dll
+C:\git\University\CarMarketplace-API\Application\obj\Debug\net8.0\Application.sourcelink.json

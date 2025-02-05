@@ -10,9 +10,5 @@ public class CreateUserRequest
 
     public string PhoneNumber { get; set; }
 
-    public string Country { get; set; }
-
-    public string Region { get; set; }
-
-    public string City { get; set; }
+    public int CityId { get; set; }
 }

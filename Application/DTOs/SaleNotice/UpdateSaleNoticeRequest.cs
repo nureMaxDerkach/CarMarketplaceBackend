@@ -6,11 +6,21 @@ public class UpdateSaleNoticeRequest
 {
     public int UserId { get; set; }
 
-    public int SaleNoticeId { get; set; }
+    public int NoticeId { get; set; }
 
     public DateTime? DateOfSale { get; set; }
     
     public bool IsActive { get; set; } = true;
     
-    public UpdateCarRequest Car { get; set; }
+    public int ModelId { get; set; }
+
+    public ushort YearOfProduction { get; set; }
+
+    public string Color { get; set; }
+
+    public int Mileage { get; set; }
+
+    public string? Description { get; set; }
+
+    public int Cost { get; set; }
 }

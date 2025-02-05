@@ -2,11 +2,7 @@
 
 public class Car : BaseEntity
 {
-    public string Brand { get; set; }
-
-    public string Model { get; set; }
-
-    public ushort YearOrProduction { get; set; }
+    public ushort YearOfProduction { get; set; }
 
     public string Color { get; set; }
 
@@ -18,5 +14,9 @@ public class Car : BaseEntity
 
     public string Number { get; set; }
 
-    public ICollection<SaleNotice> SaleNotices { get; set; }
+    public int ModelId { get; set; }
+    public Model Model { get; set; }
+    public ICollection<SaleNotice> SaleNotices { get; set; } = new List<SaleNotice>();
+
+    public ICollection<CarPhoto> CarPhotos { get; set; } = new List<CarPhoto>();
 }

@@ -9,12 +9,12 @@ using Persistence;
 
 namespace Application.Services.SaleNoticesService;
 
-public class SaleNoticesService : ISaleNoticesService
+public class SaleNoticeService : ISaleNoticeService
 {
     private readonly DataContext _dataContext;
-    private readonly ILogger<SaleNoticesService> _logger;
+    private readonly ILogger<SaleNoticeService> _logger;
 
-    public SaleNoticesService(DataContext dataContext, ILogger<SaleNoticesService> logger)
+    public SaleNoticeService(DataContext dataContext, ILogger<SaleNoticeService> logger)
     {
         _dataContext = dataContext;
         _logger = logger;
@@ -31,9 +31,9 @@ public class SaleNoticesService : ISaleNoticesService
                 Car = new CarDto
                 {
                     Id = notice.Car.Id,
-                    Brand = notice.Car.Brand,
-                    Model = notice.Car.Model,
-                    YearOfProduction = notice.Car.YearOrProduction,
+                    Brand = notice.Car.Model.Brand.Name,
+                    Model = notice.Car.Model.Name,
+                    YearOfProduction = notice.Car.YearOfProduction,
                     Color = notice.Car.Color,
                     Cost = notice.Car.Cost,
                 }
@@ -57,15 +57,17 @@ public class SaleNoticesService : ISaleNoticesService
                     LastName = notice.User.LastName,
                     Email = notice.User.Email,
                     PhoneNumber = notice.User.Email,
-                    Country = notice.User.Country,
-                    City = notice.User.City
+                    Country = notice.User.City.Region.Country.Name,
+                    City = notice.User.City.Name
                 },
                 Car = new CarDetailsDto
                 {
                     Id = notice.Car.Id,
-                    Brand = notice.Car.Brand,
-                    Model = notice.Car.Model,
-                    YearOfProduction = notice.Car.YearOrProduction,
+                    BrandId = notice.Car.Model.BrandId, 
+                    Brand = notice.Car.Model.Brand.Name,
+                    ModelId = notice.Car.ModelId,
+                    Model = notice.Car.Model.Name,
+                    YearOfProduction = notice.Car.YearOfProduction,
                     Color = notice.Car.Color,
                     Cost = notice.Car.Cost,
                     Description = notice.Car.Description,
@@ -97,18 +99,16 @@ public class SaleNoticesService : ISaleNoticesService
         var newSaleNotice = new SaleNotice
         {
             UserId = request.UserId,
-            DateOfCreation = request.DateOfCreation,
             Status = SaleNoticeConstants.Active,
             Car = new Car
             {
-                Brand = request.Car.Brand,
-                Model = request.Car.Model,
-                YearOrProduction = request.Car.YearOrProduction,
-                Color = request.Car.Color,
-                Mileage = request.Car.Mileage,
-                Description = request.Car.Description,
-                Cost = request.Car.Cost,
-                Number = request.Car.Number
+                ModelId = request.ModelId,
+                YearOfProduction = request.YearOfProduction,
+                Color = request.Color,
+                Mileage = request.Mileage,
+                Description = request.Description,
+                Cost = request.Cost,
+                Number = request.Number
             }
         };
 
@@ -122,23 +122,22 @@ public class SaleNoticesService : ISaleNoticesService
     {
         var saleNotice = await _dataContext.SaleNotices
             .Include(x => x.Car)
-            .FirstOrDefaultAsync(x => x.Id == request.SaleNoticeId && x.UserId == request.UserId);
+            .FirstOrDefaultAsync(x => x.Id == request.NoticeId && x.UserId == request.UserId);
 
         if (saleNotice is null)
         {
             _logger.LogError("Unable to update a sale notice, because there is no sale notice with id {SaleNoticeId}",
-                request.SaleNoticeId);
+                request.NoticeId);
             return false;
         }
 
         saleNotice.DateOfSale = request.DateOfSale;
-        saleNotice.Car.Description = request.Car.Description;
-        saleNotice.Car.Brand = request.Car.Brand;
-        saleNotice.Car.Model = request.Car.Model;
-        saleNotice.Car.Color = request.Car.Color;
-        saleNotice.Car.Mileage = request.Car.Mileage;
-        saleNotice.Car.Cost = request.Car.Cost;
-        saleNotice.Car.YearOrProduction = request.Car.YearOrProduction;
+        saleNotice.Car.Description = request.Description;
+        saleNotice.Car.ModelId = request.ModelId;
+        saleNotice.Car.Color = request.Color;
+        saleNotice.Car.Mileage = request.Mileage;
+        saleNotice.Car.Cost = request.Cost;
+        saleNotice.Car.YearOfProduction = request.YearOfProduction;
         
         await _dataContext.SaveChangesAsync();
 

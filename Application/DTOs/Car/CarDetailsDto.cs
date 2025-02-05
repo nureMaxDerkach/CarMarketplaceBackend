@@ -3,8 +3,12 @@
 public class CarDetailsDto
 {
     public int Id { get; set; }
+
+    public int BrandId { get; set; }
     
     public string Brand { get; set; }
+
+    public int ModelId { get; set; }
 
     public string Model { get; set; }
 

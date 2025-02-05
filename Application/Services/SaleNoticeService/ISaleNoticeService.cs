@@ -2,7 +2,7 @@
 
 namespace Application.Services.SaleNoticesService;
 
-public interface ISaleNoticesService
+public interface ISaleNoticeService
 {
     Task<List<SaleNoticeDto>> GetSaleNoticesAsync();
 

@@ -9,12 +9,12 @@ using Persistence;
 
 namespace Application.Services.UsersService;
 
-public class UsersService : IUsersService
+public class UserService : IUserService
 {
     private readonly DataContext _dataContext;
-    private readonly ILogger<UsersService> _logger;
+    private readonly ILogger<UserService> _logger;
 
-    public UsersService(DataContext dataContext, ILogger<UsersService> logger)
+    public UserService(DataContext dataContext, ILogger<UserService> logger)
     {
         _dataContext = dataContext;
         _logger = logger;
@@ -30,9 +30,9 @@ public class UsersService : IUsersService
                 LastName = user.LastName,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
-                Country = user.Country,
-                Region = user.Region,
-                City = user.City
+                Country = user.City.Region.Country.Name,
+                Region = user.City.Region.Name,
+                City = user.City.Name
             }).ToListAsync();
 
     public async Task<UserDetailsDto?> GetUserDetailsByIdAsync(int id) =>
@@ -45,21 +45,24 @@ public class UsersService : IUsersService
                 LastName = user.LastName,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
-                Country = user.Country,
-                Region = user.Region,
-                City = user.City,
+                CountryId = user.City.Region.CountryId,
+                Country = user.City.Region.Country.Name,
+                RegionId = user.City.RegionId,
+                Region = user.City.Region.Name,
+                CityId = user.CityId,
+                City = user.City.Name,
                 SaleNotices = user.SaleNotices.Select(saleNotice => new UserSaleNoticeDto
                 {
                     Id = saleNotice.Id,
                     DateOfCreation = saleNotice.DateOfCreation,
                     DateOfSale = saleNotice.DateOfSale,
                     Status = saleNotice.Status,
-                    Car = new CarDetailsDto()
+                    Car = new CarDetailsDto
                     {
                         Id = saleNotice.Car.Id,
-                        Brand = saleNotice.Car.Brand,
-                        Model = saleNotice.Car.Model,
-                        YearOfProduction = saleNotice.Car.YearOrProduction,
+                        Brand = saleNotice.Car.Model.Brand.Name,
+                        Model = saleNotice.Car.Model.Name,
+                        YearOfProduction = saleNotice.Car.YearOfProduction,
                         Color = saleNotice.Car.Color,
                         Cost = saleNotice.Car.Cost,
                         Description = saleNotice.Car.Description,
@@ -123,9 +126,7 @@ public class UsersService : IUsersService
             LastName = request.LastName,
             Email = request.Email,
             PhoneNumber = request.PhoneNumber,
-            Country = request.Country,
-            Region = request.Region,
-            City = request.City
+            CityId = request.CityId
         };
 
     public async Task<bool> UpdateUserAsync(UpdateUserRequest request)
@@ -183,9 +184,9 @@ public class UsersService : IUsersService
         user.LastName = request.LastName;
         user.Email = request.Email;
         user.PhoneNumber = request.PhoneNumber;
-        user.Country = request.Country;
-        user.Region = request.Region;
-        user.City = request.City;
+        // user.Country = request.Country;
+        // user.Region = request.Region;
+        // user.City = request.City;
     }
 
     private async Task<User?> GetUserByIdAsync(int id) => await _dataContext.Users.FirstOrDefaultAsync(x => x.Id == id);

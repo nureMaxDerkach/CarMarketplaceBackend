@@ -32,3 +32,4 @@ C:\git\University\CarMarketplace-API\Persistence\obj\Debug\net8.0\refint\Persist
 C:\git\University\CarMarketplace-API\Persistence\obj\Debug\net8.0\Persistence.pdb
 C:\git\University\CarMarketplace-API\Persistence\obj\Debug\net8.0\Persistence.genruntimeconfig.cache
 C:\git\University\CarMarketplace-API\Persistence\obj\Debug\net8.0\ref\Persistence.dll
+C:\git\University\CarMarketplace-API\Persistence\obj\Debug\net8.0\Persistence.sourcelink.json

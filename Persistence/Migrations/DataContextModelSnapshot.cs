@@ -22,7 +22,7 @@ namespace Persistence.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Domain.Car", b =>
+            modelBuilder.Entity("Domain.Brand", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -30,9 +30,44 @@ namespace Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Brand")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Brands");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Toyota"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "BMW"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Mercedes-Benz"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Ford"
+                        });
+                });
+
+            modelBuilder.Entity("Domain.Car", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Color")
                         .IsRequired()
@@ -47,20 +82,283 @@ namespace Persistence.Migrations
                     b.Property<int>("Mileage")
                         .HasColumnType("int");
 
-                    b.Property<string>("Model")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("ModelId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Number")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("YearOrProduction")
+                    b.Property<int>("YearOfProduction")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ModelId");
+
                     b.ToTable("Cars");
+                });
+
+            modelBuilder.Entity("Domain.CarPhoto", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CarId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CarId");
+
+                    b.ToTable("CarPhotos");
+                });
+
+            modelBuilder.Entity("Domain.City", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RegionId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RegionId");
+
+                    b.ToTable("Cities");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Kyiv",
+                            RegionId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Lviv",
+                            RegionId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Odesa",
+                            RegionId = 3
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Kharkiv",
+                            RegionId = 4
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Dnipro",
+                            RegionId = 5
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "Vinnytsia",
+                            RegionId = 6
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "Zaporizhzhia",
+                            RegionId = 7
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Name = "Ivano-Frankivsk",
+                            RegionId = 8
+                        });
+                });
+
+            modelBuilder.Entity("Domain.Country", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Countries");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Ukraine"
+                        });
+                });
+
+            modelBuilder.Entity("Domain.Model", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("BrandId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BrandId");
+
+                    b.ToTable("Models");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            BrandId = 1,
+                            Name = "Corolla"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            BrandId = 1,
+                            Name = "Camry"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            BrandId = 2,
+                            Name = "X5"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            BrandId = 2,
+                            Name = "M3"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            BrandId = 3,
+                            Name = "C-Class"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            BrandId = 3,
+                            Name = "E-Class"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            BrandId = 4,
+                            Name = "Focus"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            BrandId = 4,
+                            Name = "Mustang"
+                        });
+                });
+
+            modelBuilder.Entity("Domain.Region", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CountryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CountryId");
+
+                    b.ToTable("Regions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CountryId = 1,
+                            Name = "Kyiv Region"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CountryId = 1,
+                            Name = "Lviv Region"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CountryId = 1,
+                            Name = "Odesa Region"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CountryId = 1,
+                            Name = "Kharkiv Region"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CountryId = 1,
+                            Name = "Dnipro Region"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CountryId = 1,
+                            Name = "Vinnytsia Region"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CountryId = 1,
+                            Name = "Zaporizhzhia Region"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CountryId = 1,
+                            Name = "Ivano-Frankivsk Region"
+                        });
                 });
 
             modelBuilder.Entity("Domain.SaleNotice", b =>
@@ -80,6 +378,9 @@ namespace Persistence.Migrations
                     b.Property<DateTime?>("DateOfSale")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime>("LastUpdated")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -96,6 +397,39 @@ namespace Persistence.Migrations
                     b.ToTable("SaleNotices");
                 });
 
+            modelBuilder.Entity("Domain.SaleNoticeComment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Comment")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateOfCreation")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("LastUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("SaleNoticeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SaleNoticeId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("SaleNoticeComments");
+                });
+
             modelBuilder.Entity("Domain.User", b =>
                 {
                     b.Property<int>("Id")
@@ -104,13 +438,11 @@ namespace Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("CityId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Country")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("DateOfRegistration")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -131,13 +463,66 @@ namespace Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Region")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
+                    b.HasIndex("CityId");
+
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Domain.Car", b =>
+                {
+                    b.HasOne("Domain.Model", "Model")
+                        .WithOne("Car")
+                        .HasForeignKey("Domain.Car", "ModelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Model");
+                });
+
+            modelBuilder.Entity("Domain.CarPhoto", b =>
+                {
+                    b.HasOne("Domain.Car", "Car")
+                        .WithMany("CarPhotos")
+                        .HasForeignKey("CarId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Car");
+                });
+
+            modelBuilder.Entity("Domain.City", b =>
+                {
+                    b.HasOne("Domain.Region", "Region")
+                        .WithMany()
+                        .HasForeignKey("RegionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Region");
+                });
+
+            modelBuilder.Entity("Domain.Model", b =>
+                {
+                    b.HasOne("Domain.Brand", "Brand")
+                        .WithMany()
+                        .HasForeignKey("BrandId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Brand");
+                });
+
+            modelBuilder.Entity("Domain.Region", b =>
+                {
+                    b.HasOne("Domain.Country", "Country")
+                        .WithMany()
+                        .HasForeignKey("CountryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Country");
                 });
 
             modelBuilder.Entity("Domain.SaleNotice", b =>
@@ -159,13 +544,64 @@ namespace Persistence.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Domain.Car", b =>
+            modelBuilder.Entity("Domain.SaleNoticeComment", b =>
                 {
-                    b.Navigation("SaleNotices");
+                    b.HasOne("Domain.SaleNotice", "SaleNotice")
+                        .WithMany("SaleNoticeComments")
+                        .HasForeignKey("SaleNoticeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.User", "User")
+                        .WithMany("SaleNoticeComments")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("SaleNotice");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Domain.User", b =>
                 {
+                    b.HasOne("Domain.City", "City")
+                        .WithOne("User")
+                        .HasForeignKey("Domain.User", "CityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("City");
+                });
+
+            modelBuilder.Entity("Domain.Car", b =>
+                {
+                    b.Navigation("CarPhotos");
+
+                    b.Navigation("SaleNotices");
+                });
+
+            modelBuilder.Entity("Domain.City", b =>
+                {
+                    b.Navigation("User")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.Model", b =>
+                {
+                    b.Navigation("Car")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.SaleNotice", b =>
+                {
+                    b.Navigation("SaleNoticeComments");
+                });
+
+            modelBuilder.Entity("Domain.User", b =>
+                {
+                    b.Navigation("SaleNoticeComments");
+
                     b.Navigation("SaleNotices");
                 });
 #pragma warning restore 612, 618

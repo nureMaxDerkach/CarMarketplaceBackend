@@ -2,7 +2,7 @@
 
 namespace Application.Services.UsersService;
 
-public interface IUsersService
+public interface IUserService
 {
     Task<List<UserDto>> GetUsersAsync();
 
